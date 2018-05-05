@@ -5,6 +5,8 @@
 from pickle import load as pload
 from mimetypes import guess_type
 from json import load
+from xmltodict import parse
+from csv import DictReader
 
 MAPPED_KEYS = None
 map_filename = 'maps.pk'
@@ -20,21 +22,28 @@ class Config:
     def get_fixed_keys(self):
         """Return fixed keys into a dict format."""
         # TODO: Processing/filteration of data here and return keys only
-        return ['rav', 'nehayadav']
+        # TODO define your fixed keys here in list/tuple
+        return tuple()
 
     def get_dynamic_keys(self):
         """Return dynamic keys into a dict format."""
         if guess_type(self.dyn_file)[0].split('/')[1] == 'json':
             # TODO: Processing/filteration of data here and return keys only
-            return load(open(self.dyn_file)).keys()
+            with open(self.dyn_file) as file:
+                return load(file).keys()
 
         elif guess_type(self.dyn_file)[0].split('/')[1] == 'xml':
             # TODO: Processing/filteration of data here and return keys only
-            pass
+            with open(self.dyn_file) as file:
+                xml_data = parse(file.read().strip(), dict_constructor=dict)
+                return xml_data.get('doc').keys()
 
         elif guess_type(self.dyn_file)[0].split('/')[1] == 'csv':
             # TODO: Processing/filteration of data here and return keys only
-            pass
+            with open(self.dyn_file) as file:
+                reader = DictReader(file)
+                # returns column names in csv
+                return reader.fieldnames
 
 
 def init():
@@ -48,6 +57,7 @@ def init():
 
 
 def get_key(key):
+    """Doc String."""
     if MAPPED_KEYS:
         _resp = MAPPED_KEYS.get(key)
         if not _resp:

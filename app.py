@@ -9,7 +9,7 @@ from pickle import dump
 from json import loads
 from operator import itemgetter
 from fuzzywuzzy import process
-from mappings import Config
+from mappings import Config, RED
 
 
 app = Flask(__name__)
@@ -34,8 +34,12 @@ class HandleInput(Resource):
         """Doc string."""
         mapping_filepath = '/'.join(abspath(__file__).split('/')
                                     [:-1] + ['maps.pk'])
-        dump({item: request.form.get(item)
-              for item in fixed_keys}, open(mapping_filepath, 'wb'))
+        try:
+            dump({item: request.form.get(item)
+                for item in fixed_keys}, open(mapping_filepath, 'wb'))
+        except TypeError:
+            # TODO: known issuee to be fixed soon.
+            print(RED.format("Clear Everything and reload page agian."))
         return {
             "status": "success",
             "filePath": mapping_filepath
