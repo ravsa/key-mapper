@@ -10,7 +10,6 @@ __pycache__/
 .Python
 env/
 maps.pk
-test.json
 build/
 develop-eggs/
 dist/

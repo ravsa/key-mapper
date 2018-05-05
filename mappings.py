@@ -23,7 +23,7 @@ class Config:
         """Return fixed keys into a dict format."""
         # TODO: Processing/filteration of data here and return keys only
         # TODO define your fixed keys here in list/tuple
-        return tuple()
+        return ('someKey1', 'someKey2', 'someKey3')
 
     def get_dynamic_keys(self):
         """Return dynamic keys into a dict format."""
