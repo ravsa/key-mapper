@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table, td, th {    
+        border: 1px solid #ddd;
+        text-align: center;
+      }
+      table {
+        border-collapse: collapse;
+        width: 80%;
+      }
+      th, td {
+        padding: 15px;
+        width: 38%;
+      }
+      .dropdown {
+        width: 300px;
+        height: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 style="margin-left:45%">Key Mapping</h2>
+    <form method="POST" action="{{ url_for('process') }}" style="margin-left:20%">
+      <div>
+        {% for item in data["fixed_keys"] %}
+        <table>
+          <tr>
+            <td > 
+              <span style="font-size: 22px">
+                {{item}} 
+              </span>
+            </td>
+            <td>
+              <div >
+                <select name={{item}} class="dropdown" style="padding-left: 35px;font-size: 18px">
+                  {% for o in data["dynamic_keys"][item] %}
+                  <option value="{{o}}" >
+                  <span>
+                    {{ o }}
+                  </span>
+                  </option>
+                {% endfor %}
+                </select>
+              </div>
+            </td>
+          </tr>
+        </table>
+        {% endfor %}
+        <div style="margin-top:50px">
+          <button type="submit" style="margin-left:35%;background:DodgerBlue;border:0px;width:150px;height:25px;font-size: 18px">Generate Maps</button>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
